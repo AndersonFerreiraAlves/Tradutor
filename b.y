@@ -17,6 +17,8 @@ void yyerror(const char *s);
 
 %}
 
+%token FUNCTION
+%token RETURN
 %token IF
 %token ELSE
 %token FOR
@@ -93,6 +95,13 @@ void yyerror(const char *s);
 	class UnExpPlus *unExpPlus;
 	class UnExpMinus *unExpMinus;
 	class LparExpRpar *lparExpRpar;
+	class Function *function;
+	class Functions *functions;
+	class Parametro *parametro;
+	class Parametros *parametros;
+	class ChamadaFuncao *c_funcao;
+	class ValorLiterals *vls;
+	class ValorLiteral *vl;
 };
 
 %type<int_value> Tipo;
@@ -142,12 +151,35 @@ void yyerror(const char *s);
 %type<unExpPlus> UnExpPlus;
 %type<unExpMinus> UnExpMinus;
 %type<lparExpRpar> LparExpRpar;
+%type<function> Funcao;
+%type<functions> Funcoes;
+%type<parametro> Parametro;
+%type<parametros> Parametros;
+%type <c_funcao> Chamada_Funcao;
+%type <vls> ValorLiterals;
+%type <vl> ValorLiteral;
 
 
 %right IF ELSE
 %error-verbose
 
 %%
+
+Funcoes: Funcoes Funcao  {$$ = new Functions($1, $2);}
+		| Funcao 		{$$ = $1;}
+	;
+
+Funcao: FUNCTION TIPO IDENTIFICADOR PARENTESE_E Parametros PARENTESE_D CHAVE_E VarDeclarations Comandos CHAVE_D {$$ = new Function($2,new IdValue(string($3)),$5,$8,$9);}
+	;
+
+Parametros:
+	 Parametros VIRGULA Parametro {$$ = new ParametroList($1,$3);}
+	| Parametro	{$$ = $1}
+	;
+
+Parametro: 
+	TIPO IDENTIFICADOR {$$ = new Parametro($1,new IdValue(string($2)));}
+	;
 
 Main: 
 	VOID MAIN PARENTESE_E PARENTESE_D CHAVE_E VarDeclarations Comandos CHAVE_D {Programa *n = new Programa($6, $7);Contexto::getContexto().setPrograma(n);}
@@ -199,7 +231,20 @@ Comando:
     |Laco {$$ = $1;}
 	|Print PONTO_VIRGULA {$$ = $1;}
 	|Exp PONTO_VIRGULA {$$ = $1;}
+	| Chamada_Funcao PONTO_VIRGULA {$$ = $1;}
     ;
+
+Chamada_Funcao:
+	IDENTIFICADOR PARENTESE_E ValorLiterals PARENTESE_D {$$ = ChamadaFuncao(new IdValue(string($1)), $3); }
+	;
+
+ValorLiterals: 
+	ValorLiterals VIRGULA ValorLiteral {$$ = new ValorLiteralList($1,$3);}
+	| ValorLiteral {$$ = $1;}
+	;
+ValorLiteral:
+	LValue {$$ = new ValorLiteral($1);}
+;
 
 Condicional: 
 	IF PARENTESE_E LValue PARENTESE_D CHAVE_E Comandos CHAVE_D {$$ = new If($3, $6);}

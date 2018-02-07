@@ -17,6 +17,125 @@ Variavel *Programa::execute() {//feito
 	return NULL;
 }
 
+//Function
+VarDeclarations *Function::getVarDecList() {
+	return this->varDecList;
+}
+
+IdValue *Function::getIdValue(){
+	return this->idValue;
+}
+
+int Function::getTipo(){
+	return this->tipo;
+}
+
+Parametros *Function::getParametros(){
+	return this->parametros;
+}
+
+Commands *Function::getCommands(){
+	return this->commands;
+}
+
+Variavel *Function::execute(){//falta terminar
+	int tipo = this->tipo;
+	string nome = this->idValue->getValue();
+	this->parametros->execute();
+	this->varDecList->execute();
+	this->commands->execute();
+	return NULL;
+}
+
+//FunctionList 
+Functions *FunctionList::getFunctions(){//feito
+	return this->Functions;
+}
+
+Function *FunctionList::getFunction(){
+	return this->Function;
+}
+
+Variavel *FunctionList::execute(){
+	this->Functions->execute();
+	this->Function->execute();
+	return NULL;
+}
+
+//Parametro
+int Parametro::getTipo(){
+	return this->tipo;
+}
+
+IdValue *Parametro::getValue(){
+	return this->value;
+}
+
+Variavel *Parametro::execute(){
+	string nome = this->idValue->getValue();
+	return NULL;
+}
+
+//ParametroList
+Parametros *ParametroList::getParametros(){
+	return this->parametros;
+}
+
+Parametro *ParametroList::getParametro(){
+	return this->parametro;
+}
+
+Variavel *ParametroList::execute(){//feito
+	this->parametros->execute();
+	this->parametro->execute();
+	return NULL;
+}
+
+//ChamadaFuncao
+ValorLiterals *ChamadaFuncao::getValorLiterals(){
+	return this->valorLiterals;
+}
+
+IdValue *ChamadaFuncao::getIdValue(){
+	return this->valorLiteral;
+}
+
+Variavel *ChamadaFuncao::execute(){
+
+	Contexto::getContexto().CriaEscopo();
+	this->valorLiterals->execute();
+	string nome = this->idValue->getValue();
+
+	Contexto::getContexto().DestroiEscopo();
+
+	return ;
+}
+
+//ValorLiteralList
+ValorLiterals *ValorLiteralList::getValorLiterals(){
+	return this->valorLiterals;
+}
+
+ValorLiteral *ValorLiteralList::getValorLiteral(){
+	return this->valorLiteral;
+}
+
+Variavel *ValorLiteralList::execute(){//feito
+	this->valorLiterals->execute();
+	this->valorLiteral->execute();
+	return NULL;
+}
+
+//ValorLiteral
+LValue *ValorLiteral::getLValue(){
+	return this->value;
+}
+
+Variavel *ValorLiteral::execute(){
+	
+	Variavel *v = this->lValue->execute();
+}
+
 //VarDeclaration
 int VarDeclaration::getType() {
     return this->type;

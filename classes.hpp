@@ -36,6 +36,102 @@ public:
 
 class Resultado {};
 
+class Functions {};
+
+class Function: public Functions {
+private:
+	int tipo;
+	IdValue *idValue;
+	Parametros *parametros;
+	VarDeclarations *varDecList;
+	Commands *commands;
+public:
+	Function(int t,IdValue *idv,Parametros *prm, VarDeclarations *varList, Commands *comms) : varDecList(varList), commands(comms),idValue(idv), parametros(prm), tipo(t) {} //construtor
+	VarDeclarations *getVarDecList();
+	IdValue *getIdValue();
+	int getTipo();
+	Parametros * getParametros();
+	Commands *getCommands();
+	Variavel *execute();
+
+};
+
+class FunctionList: public Functions{
+private:	
+	Functions *functions;
+	Function *function;
+public:
+	FunctionList(Functions *fl, Function *f): functions(fl), function(f) {}
+	Functions *getFunctions();
+	Function *getFunction();
+	Variavel *execute();
+};
+
+//asdsadsa
+
+class Parametros {};
+
+class Parametro: public Parametros {
+private:
+	int tipo;
+	IdValue value;
+public:
+	Parametro(int a, IdValue *iv) : tipo(a), value(iv){} //construtor
+	int getTipo();
+	IdValue *getValue();
+	Variavel *execute();
+
+};
+
+class ValorLiterals {};
+
+class ValorLiteral : public ValorLiterals{
+private:
+	LValue *lValue;
+public:
+	ValorLiteral(LValue *l): lValue(l) {}
+	LValue *getLValue();
+	Variavel *execute();
+};
+
+class ValorLiteralList : public ValorLiterals{
+private:
+	ValorLiterals *valorLiterals;
+	ValorLiteral *valorLiteral;
+public:
+	ValorLiteralList(ValorLiterals *vls, ValorLiteral *vl): valorLiterals(vls), valorLiteral(vl) {}
+	ValorLiterals *getValorLiterals();
+	ValorLiteral *getValorLiteral();
+	Variavel *execute();
+};
+
+class ChamadaFuncao: public Command{
+private:
+	IdValue *idValue;
+	ValorLiterals *valorLiterals;
+public:
+	ChamadaFuncao(ValorLiterals *l, IdValue *iv): valorLiterals(l), idValue(iv) {}
+	ValorLiterals *getValorLiterals();
+	IdValue *getIdValue();
+	Variavel *execute();
+};
+
+
+
+
+
+class ParametroList: public Parametros{ //done
+private:	
+	Parametros *parametros;
+	Parametro *parametro;
+public:
+	ParametroList(Parametros *ps, Parametro *p): parametros(ps), parametro(p) {}
+	Parametros *getParametros();
+	Parametro *getParametro();
+	Variavel *execute();
+};
+
+
 class Commands : public Node{};
 
 class Command : public Commands{};

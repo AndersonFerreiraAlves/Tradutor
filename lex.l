@@ -34,6 +34,8 @@ int numero_linhas = 0;
 "double"		        {yylval.int_value = 1; return DOUBLE;}
 "void"		            {return VOID;}
 "main"					{return MAIN;}
+"function"              {return FUNCAO;}
+"return"                {return RETURN;}
 "print"					{return PRINT;}
 "!"				   		{return EXCLAMACAO;}
 "<"					   	{return MENOR;}
