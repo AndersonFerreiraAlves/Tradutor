@@ -1,0 +1,31 @@
+void main () {
+	   
+	int a = 9, e = 7, o;
+	double b = 12;
+	int c;
+	double l;
+	int i;
+	double b;
+	int s = 11/2;
+	print(s);
+
+	if((a <= 9) || (e > 8)) {
+
+		for(i = 0; i<10; i = i + 1) {
+
+			if((a == 9)) {
+
+				print(i + a);
+				print(b);
+
+			}
+
+			else {
+
+				print((((6 - 4) * (1 + 9)) / 10) + 1);
+
+			}
+
+		}
+	}
+}

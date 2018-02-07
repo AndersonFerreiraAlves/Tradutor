@@ -1,0 +1,2 @@
+executavel.exe;
+pause;
